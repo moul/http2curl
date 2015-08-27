@@ -3,6 +3,8 @@ package http2curl
 import (
 	"bytes"
 	"fmt"
+	"io"
+	"io/ioutil"
 	"net/http"
 	"strings"
 )
@@ -23,12 +25,19 @@ func (c *CurlCommand) String() string {
 	copy(slice, c.slice)
 	for i := range slice {
 		quoted := fmt.Sprintf("%q", slice[i])
-		if len(quoted) != len(slice[i])+2 {
+		if strings.Contains(slice[i], " ") || len(quoted) != len(slice[i])+2 {
 			slice[i] = quoted
 		}
 	}
 	return strings.Join(slice, " ")
 }
+
+// nopCloser is used to create a new io.ReadCloser for req.Body
+type nopCloser struct {
+	io.Reader
+}
+
+func (nopCloser) Close() error { return nil }
 
 // GetCurlCommand returns a CurlCommand corresponding to an http.Request
 func GetCurlCommand(req *http.Request) (*CurlCommand, error) {
@@ -38,14 +47,17 @@ func GetCurlCommand(req *http.Request) (*CurlCommand, error) {
 
 	command.append("-X", req.Method)
 
-	buf := new(bytes.Buffer)
-	buf.ReadFrom(req.Body)
-	if buf.Len() > 0 {
-		command.append("-d", buf.String())
+	if req.Body != nil {
+		body, err := ioutil.ReadAll(req.Body)
+		if err != nil {
+			return nil, err
+		}
+		req.Body = nopCloser{bytes.NewBuffer(body)}
+		command.append("-d", fmt.Sprintf("%s", bytes.Trim(body, "\n")))
 	}
 
 	for key, values := range req.Header {
-		command.append("-H", fmt.Sprintf("%s=%s", key, strings.Join(values, " ")))
+		command.append("-H", fmt.Sprintf("%s: %s", key, strings.Join(values, " ")))
 	}
 
 	command.append(req.URL.String())
