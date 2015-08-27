@@ -45,7 +45,7 @@ func GetCurlCommand(req *http.Request) (*CurlCommand, error) {
 	}
 
 	for key, values := range req.Header {
-		command.append("-H", key, strings.Join(values, " "))
+		command.append("-H", fmt.Sprintf("%s=%s", key, strings.Join(values, " ")))
 	}
 
 	command.append(req.URL.String())
