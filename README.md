@@ -5,6 +5,8 @@
 [![GoDoc](https://godoc.org/github.com/moul/http2curl?status.svg)](https://godoc.org/github.com/moul/http2curl)
 [![Coverage Status](https://coveralls.io/repos/moul/http2curl/badge.svg)](https://coveralls.io/github/moul/http2curl)
 
+To do the reverse, check out [mholt/curl-to-go](https://github.com/mholt/curl-to-go).
+
 ## Example
 
 ```go
