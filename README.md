@@ -24,6 +24,13 @@ fmt.Println(command)
 $ go get github.com/moul/http2curl
 ```
 
+## Usages
+
+- https://github.com/parnurzeal/gorequest
+- https://github.com/scaleway/scaleway-cli
+- https://github.com/nmonterroso/cowsay-slackapp
+- https://github.com/moul/as-a-service
+
 ## License
 
 MIT
