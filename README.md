@@ -10,12 +10,13 @@ To do the reverse, check out [mholt/curl-to-go](https://github.com/mholt/curl-to
 ## Example
 
 ```go
+import "http"
 import "github.com/moul/http2curl"
 
 req, _ := http.NewRequest("PUT", "http://www.example.com/abc/def.ghi?jlk=mno&pqr=stu", bytes.NewBufferString(`{"hello":"world","answer":42}`))
 req.Header.Set("Content-Type", "application/json")
 
-command, _ := GetCurlCommand(req)
+command, _ := http2curl.GetCurlCommand(req)
 fmt.Println(command)
 // Output: curl -X PUT -d "{\"hello\":\"world\",\"answer\":42}" -H "Content-Type: application/json" http://www.example.com/abc/def.ghi?jlk=mno&pqr=stu
 ```
