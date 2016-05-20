@@ -17,7 +17,7 @@ func ExampleGetCurlCommand() {
 	fmt.Println(command)
 
 	// Output:
-	// curl -X PUT -d "{\"hello\":\"world\",\"answer\":42}" -H "Content-Type: application/json" http://www.example.com/abc/def.ghi?jlk=mno&pqr=stu
+	// curl -X PUT -d "{\"hello\":\"world\",\"answer\":42}" -H "Content-Type: application/json" 'http://www.example.com/abc/def.ghi?jlk=mno&pqr=stu'
 }
 
 func TestGetCurlCommand(t *testing.T) {
@@ -32,7 +32,7 @@ func TestGetCurlCommand(t *testing.T) {
 
 		command, err := GetCurlCommand(req)
 		So(err, ShouldBeNil)
-		expected := `curl -X PUT -d "{\"hello\":\"world\",\"answer\":42}" -H "Content-Type: application/json" -H "X-Auth-Token: private-token" http://www.example.com/abc/def.ghi?jlk=mno&pqr=stu`
+		expected := `curl -X PUT -d "{\"hello\":\"world\",\"answer\":42}" -H "Content-Type: application/json" -H "X-Auth-Token: private-token" 'http://www.example.com/abc/def.ghi?jlk=mno&pqr=stu'`
 		So(command.String(), ShouldEqual, expected)
 	})
 }
