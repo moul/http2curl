@@ -3,7 +3,7 @@
 
 [![Build Status](https://travis-ci.org/moul/http2curl.svg?branch=master)](https://travis-ci.org/moul/http2curl)
 [![GoDoc](https://godoc.org/github.com/moul/http2curl?status.svg)](https://godoc.org/github.com/moul/http2curl)
-[![Coverage Status](https://coveralls.io/repos/moul/http2curl/badge.svg)](https://coveralls.io/github/moul/http2curl)
+[![Coverage Status](https://coveralls.io/repos/moul/http2curl/badge.svg)](https://coveralls.io/github/moul/http2curl) [![GuardRails badge](https://badges.production.guardrails.io/moul/http2curl.svg)](https://www.guardrails.io)
 
 To do the reverse, check out [mholt/curl-to-go](https://github.com/mholt/curl-to-go).
 
