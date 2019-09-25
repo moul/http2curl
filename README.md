@@ -10,7 +10,7 @@
 [![codecov](https://codecov.io/gh/moul/http2curl/branch/master/graph/badge.svg)](https://codecov.io/gh/moul/http2curl)
 [![GolangCI](https://golangci.com/badges/github.com/moul/http2curl.svg)](https://golangci.com/r/github.com/moul/http2curl)
 [![Sourcegraph](https://sourcegraph.com/github.com/moul/http2curl/-/badge.svg)](https://sourcegraph.com/github.com/moul/http2curl?badge)
-[![Sourcegraph](https://sourcegraph.com/github.com/moul/http2curl/-/badge.svg)](https://sourcegraph.com/github.com/moul/http2curl?badge)
+[![Sourcegraph](https://sourcegraph.com/moul.io/http2curl/-/badge.svg)](https://sourcegraph.com/moul.io/http2curl?badge)
 [![Made by Manfred Touron](https://img.shields.io/badge/made%20by-Manfred%20Touron-blue.svg?style=flat)](https://manfred.life/)
 
 
