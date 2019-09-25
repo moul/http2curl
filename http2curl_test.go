@@ -6,9 +6,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
-	"testing"
-
-	. "github.com/smartystreets/goconvey/convey"
+	"strings"
 )
 
 func ExampleGetCurlCommand() {
@@ -36,6 +34,25 @@ func ExampleGetCurlCommand_json() {
 
 	// Output:
 	// curl -X 'PUT' -d '{"hello":"world","answer":42}' -H 'Content-Type: application/json' 'http://www.example.com/abc/def.ghi?jlk=mno&pqr=stu'
+}
+
+func ExampleGetCurlCommand_slice() {
+	// See https://github.com/moul/http2curl/issues/12
+	req, _ := http.NewRequest("PUT", "http://www.example.com/abc/def.ghi?jlk=mno&pqr=stu", bytes.NewBufferString(`{"hello":"world","answer":42}`))
+	req.Header.Set("Content-Type", "application/json")
+
+	command, _ := GetCurlCommand(req)
+	fmt.Println(strings.Join(*command, " \\\n  "))
+
+	// Output:
+	// curl \
+	//   -X \
+	//   'PUT' \
+	//   -d \
+	//   '{"hello":"world","answer":42}' \
+	//   -H \
+	//   'Content-Type: application/json' \
+	//   'http://www.example.com/abc/def.ghi?jlk=mno&pqr=stu'
 }
 
 func ExampleGetCurlCommand_noBody() {
@@ -83,19 +100,21 @@ func ExampleGetCurlCommand_specialCharsInBody() {
 	// curl -X 'POST' -d 'Hello $123 o'\''neill -"-' -H 'Content-Type: application/json' 'http://www.example.com/abc/def.ghi?jlk=mno&pqr=stu'
 }
 
-func TestGetCurlCommand(t *testing.T) {
-	Convey("Testing http2curl", t, func() {
-		uri := "http://www.example.com/abc/def.ghi?jlk=mno&pqr=stu"
-		payload := new(bytes.Buffer)
-		payload.Write([]byte(`{"hello":"world","answer":42}`))
-		req, err := http.NewRequest("PUT", uri, payload)
-		So(err, ShouldBeNil)
-		req.Header.Set("X-Auth-Token", "private-token")
-		req.Header.Set("Content-Type", "application/json")
+func ExampleGetCurlCommand_other() {
+	uri := "http://www.example.com/abc/def.ghi?jlk=mno&pqr=stu"
+	payload := new(bytes.Buffer)
+	payload.Write([]byte(`{"hello":"world","answer":42}`))
+	req, err := http.NewRequest("PUT", uri, payload)
+	if err != nil {
+		panic(err)
+	}
+	req.Header.Set("X-Auth-Token", "private-token")
+	req.Header.Set("Content-Type", "application/json")
 
-		command, err := GetCurlCommand(req)
-		So(err, ShouldBeNil)
-		expected := `curl -X 'PUT' -d '{"hello":"world","answer":42}' -H 'Content-Type: application/json' -H 'X-Auth-Token: private-token' 'http://www.example.com/abc/def.ghi?jlk=mno&pqr=stu'`
-		So(command.String(), ShouldEqual, expected)
-	})
+	command, err := GetCurlCommand(req)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(command)
+	// Output: curl -X 'PUT' -d '{"hello":"world","answer":42}' -H 'Content-Type: application/json' -H 'X-Auth-Token: private-token' 'http://www.example.com/abc/def.ghi?jlk=mno&pqr=stu'
 }

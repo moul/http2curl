@@ -11,18 +11,16 @@ import (
 )
 
 // CurlCommand contains exec.Command compatible slice + helpers
-type CurlCommand struct {
-	slice []string
-}
+type CurlCommand []string
 
 // append appends a string to the CurlCommand
 func (c *CurlCommand) append(newSlice ...string) {
-	c.slice = append(c.slice, newSlice...)
+	*c = append(*c, newSlice...)
 }
 
 // String returns a ready to copy/paste command
 func (c *CurlCommand) String() string {
-	return strings.Join(c.slice, " ")
+	return strings.Join(*c, " ")
 }
 
 // nopCloser is used to create a new io.ReadCloser for req.Body
