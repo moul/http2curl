@@ -1,0 +1,19 @@
+version: 2.1
+
+orbs:
+  moul: moul/build@1.12.1 # https://github.com/moul/build
+
+workflows:
+  main:
+    jobs:
+      - moul/golang-build:
+          gopkg: moul.io/http2curl
+          no-install: true
+      - moul/golang-build:
+          gopkg: moul.io/http2curl
+          tag: '1.12'
+          no-install: true
+      - moul/golang-build:
+          gopkg: moul.io/http2curl
+          tag: '1.11'
+          no-install: true

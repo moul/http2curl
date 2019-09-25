@@ -1,10 +1,17 @@
 # http2curl
 :triangular_ruler: Convert Golang's http.Request to CURL command line
 
-[![Build Status](https://travis-ci.org/moul/http2curl.svg?branch=master)](https://travis-ci.org/moul/http2curl)
-[![GoDoc](https://godoc.org/github.com/moul/http2curl?status.svg)](https://godoc.org/github.com/moul/http2curl)
-[![Coverage Status](https://coveralls.io/repos/moul/http2curl/badge.svg)](https://coveralls.io/github/moul/http2curl)
+[![CircleCI](https://circleci.com/gh/moul/http2curl.svg?style=shield)](https://circleci.com/gh/moul/http2curl)
+[![GoDoc](https://godoc.org/moul.io/http2curl?status.svg)](https://godoc.org/moul.io/http2curl)
+[![License](https://img.shields.io/badge/license-Apache--2.0%20%2F%20MIT-%2397ca00.svg)](https://github.com/moul/http2curl/blob/master/COPYRIGHT)
+[![GitHub release](https://img.shields.io/github/release/moul/http2curl.svg)](https://github.com/moul/http2curl/releases)
+[![Go Report Card](https://goreportcard.com/badge/moul.io/http2curl)](https://goreportcard.com/report/moul.io/http2curl)
+[![CodeFactor](https://www.codefactor.io/repository/github/moul/http2curl/badge)](https://www.codefactor.io/repository/github/moul/http2curl)
+[![codecov](https://codecov.io/gh/moul/http2curl/branch/master/graph/badge.svg)](https://codecov.io/gh/moul/http2curl)
+[![GolangCI](https://golangci.com/badges/github.com/moul/http2curl.svg)](https://golangci.com/r/github.com/moul/http2curl)
 [![Sourcegraph](https://sourcegraph.com/github.com/moul/http2curl/-/badge.svg)](https://sourcegraph.com/github.com/moul/http2curl?badge)
+[![Sourcegraph](https://sourcegraph.com/github.com/moul/http2curl/-/badge.svg)](https://sourcegraph.com/github.com/moul/http2curl?badge)
+[![Made by Manfred Touron](https://img.shields.io/badge/made%20by-Manfred%20Touron-blue.svg?style=flat)](https://manfred.life/)
 
 
 To do the reverse, check out [mholt/curl-to-go](https://github.com/mholt/curl-to-go).
@@ -12,8 +19,10 @@ To do the reverse, check out [mholt/curl-to-go](https://github.com/mholt/curl-to
 ## Example
 
 ```go
-import "http"
-import "github.com/moul/http2curl"
+import (
+    "http"
+    "moul.io/http2curl"
+)
 
 data := bytes.NewBufferString(`{"hello":"world","answer":42}`)
 req, _ := http.NewRequest("PUT", "http://www.example.com/abc/def.ghi?jlk=mno&pqr=stu", data)
@@ -27,7 +36,7 @@ fmt.Println(command)
 ## Install
 
 ```php
-$ go get github.com/moul/http2curl
+$ go get moul.io/http2curl
 ```
 
 ## Usages
@@ -41,4 +50,8 @@ $ go get github.com/moul/http2curl
 
 ## License
 
-MIT
+© 2019 [Manfred Touron](https://manfred.life)
+
+Licensed under the [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0) ([`LICENSE-APACHE`](LICENSE-APACHE)) or the [MIT license](https://opensource.org/licenses/MIT) ([`LICENSE-MIT`](LICENSE-MIT)), at your option. See the [`COPYRIGHT`](COPYRIGHT) file for more details.
+
+`SPDX-License-Identifier: (Apache-2.0 OR MIT)`
