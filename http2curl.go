@@ -49,7 +49,9 @@ func GetCurlCommand(req *http.Request) (*CurlCommand, error) {
 		}
 		req.Body = nopCloser{bytes.NewBuffer(body)}
 		bodyEscaped := bashEscape(string(body))
-		command.append("-d", bodyEscaped)
+		if len(bodyEscaped) > 0 {
+			command.append("-d", bodyEscaped)
+		}
 	}
 
 	var keys []string
