@@ -1,1 +1,1 @@
-package http2curl // import "moul.io/http2curl"
+package http2curl
