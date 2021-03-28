@@ -1,0 +1,36 @@
+{
+  "plugins": {
+    "lint": {
+        "blockquote-indentation": 2,
+        "emphasis-marker": "*",
+        "first-heading-level": false,
+        "link-title-style": "\"",
+        "list-item-indent": false,
+        "list-item-spacing": false,
+        "no-shell-dollars": false,
+        "maximum-heading-length": false,
+        "maximum-line-length": false,
+        "no-duplicate-headings": false,
+        "no-blockquote-without-caret": false,
+        "no-file-name-irregular-characters": true,
+        "no-file-name-outer-dashes": false,
+        "no-heading-punctuation": false,
+        "no-html": false,
+        "no-multiple-toplevel-headings": false,
+        "ordered-list-marker-style": ".",
+        "ordered-list-marker-value": "one",
+        "strong-marker": "*"
+    }
+  },
+  "settings": {
+    "gfm": true,
+    "yaml": true,
+    "rule": "-",
+    "ruleSpaces": false,
+    "ruleRepetition": 70,
+    "emphasis": "*",
+    "listItemIndent": "1",
+    "incrementListMarker": false,
+    "spacedTable": false
+  }
+}

@@ -1,4 +1,5 @@
 # http2curl
+
 :triangular_ruler: Convert Golang's http.Request to CURL command line
 
 [![CircleCI](https://circleci.com/gh/moul/http2curl.svg?style=shield)](https://circleci.com/gh/moul/http2curl)
@@ -12,7 +13,6 @@
 [![Sourcegraph](https://sourcegraph.com/github.com/moul/http2curl/-/badge.svg)](https://sourcegraph.com/github.com/moul/http2curl?badge)
 [![Sourcegraph](https://sourcegraph.com/moul.io/http2curl/-/badge.svg)](https://sourcegraph.com/moul.io/http2curl?badge)
 [![Made by Manfred Touron](https://img.shields.io/badge/made%20by-Manfred%20Touron-blue.svg?style=flat)](https://manfred.life/)
-
 
 To do the reverse, check out [mholt/curl-to-go](https://github.com/mholt/curl-to-go).
 
@@ -35,8 +35,8 @@ fmt.Println(command)
 
 ## Install
 
-```php
-$ go get moul.io/http2curl
+```bash
+go get moul.io/http2curl
 ```
 
 ## Usages
