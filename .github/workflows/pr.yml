@@ -1,0 +1,42 @@
+name: PR
+
+on:
+  #pull_request_target:
+  pull_request:
+    branches: [ master ]
+  issue_comment:
+    types: [ edited ]
+
+jobs:
+  preview:
+    name: Release-Notes Preview
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - run: |
+        git fetch --prune --unshallow --tags
+    - uses: snyk/release-notes-preview@v1.6.2
+      with:
+        releaseBranch: master
+      env:
+        GITHUB_PR_USERNAME: ${{ github.actor }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  doc:
+    name: Documentation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          depth: 1
+      - uses: nosborn/github-action-markdown-cli@master
+        with:
+          files: .
+          config_file: ./tool/lint/.markdownlint.json
+      - uses: K-Phoen/action-misspell@master
+        with:
+          github_token: ${{ github.token }}
+          reporter: github-pr-review
+          locale: "US"
+      - name: alexjs
+        uses: theashraf/alex-action@master
