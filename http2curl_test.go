@@ -74,7 +74,7 @@ func ExampleGetCurlCommand_emptyStringBody() {
 	fmt.Println(command)
 
 	// Output:
-	// curl -X 'PUT' -d '' -H 'Content-Type: application/json' 'http://www.example.com/abc/def.ghi?jlk=mno&pqr=stu'
+	// curl -X 'PUT' -H 'Content-Type: application/json' 'http://www.example.com/abc/def.ghi?jlk=mno&pqr=stu'
 }
 
 func ExampleGetCurlCommand_newlineInBody() {
