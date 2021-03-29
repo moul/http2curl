@@ -3,8 +3,6 @@ package http2curl
 import (
 	"bytes"
 	"fmt"
-	"io"
-	"io/ioutil"
 	"net/http"
 	"sort"
 	"strings"
@@ -23,16 +21,9 @@ func (c *CurlCommand) String() string {
 	return strings.Join(*c, " ")
 }
 
-// nopCloser is used to create a new io.ReadCloser for req.Body
-type nopCloser struct {
-	io.Reader
-}
-
 func bashEscape(str string) string {
 	return `'` + strings.Replace(str, `'`, `'\''`, -1) + `'`
 }
-
-func (nopCloser) Close() error { return nil }
 
 // GetCurlCommand returns a CurlCommand corresponding to an http.Request
 func GetCurlCommand(req *http.Request) (*CurlCommand, error) {
@@ -43,13 +34,13 @@ func GetCurlCommand(req *http.Request) (*CurlCommand, error) {
 	command.append("-X", bashEscape(req.Method))
 
 	if req.Body != nil {
-		body, err := ioutil.ReadAll(req.Body)
+		var buff bytes.Buffer
+		_, err := buff.ReadFrom(req.Body)
 		if err != nil {
-			return nil, err
+			return nil, fmt.Errorf("getCurlCommand: buffer read from body erorr: %w", err)
 		}
-		req.Body = nopCloser{bytes.NewBuffer(body)}
-		if len(string(body)) > 0 {
-			bodyEscaped := bashEscape(string(body))
+		if len(buff.String()) > 0 {
+			bodyEscaped := bashEscape(buff.String())
 			command.append("-d", bodyEscaped)
 		}
 	}
