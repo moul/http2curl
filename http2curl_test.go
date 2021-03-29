@@ -6,7 +6,9 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"strconv"
 	"strings"
+	"testing"
 )
 
 func ExampleGetCurlCommand() {
@@ -117,4 +119,19 @@ func ExampleGetCurlCommand_other() {
 	}
 	fmt.Println(command)
 	// Output: curl -X 'PUT' -d '{"hello":"world","answer":42}' -H 'Content-Type: application/json' -H 'X-Auth-Token: private-token' 'http://www.example.com/abc/def.ghi?jlk=mno&pqr=stu'
+}
+
+// Benchmark test for GetCurlCommand
+func BenchmarkGetCurlCommand(b *testing.B) {
+	form := url.Values{}
+
+	for i := 0; i <= b.N; i++ {
+		form.Add("number", strconv.Itoa(i))
+		body := form.Encode()
+		req, _ := http.NewRequest(http.MethodPost, "http://foo.com", ioutil.NopCloser(bytes.NewBufferString(body)))
+		_, err := GetCurlCommand(req)
+		if err != nil {
+			panic(err)
+		}
+	}
 }
