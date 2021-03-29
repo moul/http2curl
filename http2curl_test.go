@@ -125,7 +125,7 @@ func ExampleGetCurlCommand_other() {
 func BenchmarkGetCurlCommand(b *testing.B) {
 	form := url.Values{}
 
-	for i := 0; i <= 50; i++ {
+	for i := 0; i <= b.N; i++ {
 		form.Add("number", strconv.Itoa(i))
 		body := form.Encode()
 		req, _ := http.NewRequest(http.MethodPost, "http://foo.com", ioutil.NopCloser(bytes.NewBufferString(body)))
