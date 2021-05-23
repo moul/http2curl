@@ -31,7 +31,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: golangci-lint
-        uses: golangci/golangci-lint-action@v2.5.1
+        uses: golangci/golangci-lint-action@v2.5.2
         with:
           version: v1.38
           #github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -70,7 +70,7 @@ jobs:
         uses: actions/setup-go@v2
         with:
           go-version: ${{ matrix.golang }}
-      - uses: actions/cache@v2.1.4
+      - uses: actions/cache@v2.1.5
         with:
           path: ~/go/pkg/mod
           key: ${{ runner.os }}-go-${{ matrix.golang }}-${{ hashFiles('**/go.sum') }}
@@ -110,7 +110,7 @@ jobs:
         uses: actions/setup-go@v2
         with:
           go-version: ${{ matrix.golang }}
-      - uses: actions/cache@v2.1.4
+      - uses: actions/cache@v2.1.5
         with:
           path: ~/go/pkg/mod
           key: ${{ runner.os }}-go-${{ matrix.golang }}-${{ hashFiles('**/go.sum') }}
