@@ -121,6 +121,25 @@ func ExampleGetCurlCommand_other() {
 	// Output: curl -X 'PUT' -d '{"hello":"world","answer":42}' -H 'Content-Type: application/json' -H 'X-Auth-Token: private-token' 'http://www.example.com/abc/def.ghi?jlk=mno&pqr=stu'
 }
 
+func ExampleGetCurlCommand_https() {
+	uri := "https://www.example.com/abc/def.ghi?jlk=mno&pqr=stu"
+	payload := new(bytes.Buffer)
+	payload.Write([]byte(`{"hello":"world","answer":42}`))
+	req, err := http.NewRequest("PUT", uri, payload)
+	if err != nil {
+		panic(err)
+	}
+	req.Header.Set("X-Auth-Token", "private-token")
+	req.Header.Set("Content-Type", "application/json")
+
+	command, err := GetCurlCommand(req)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(command)
+	// Output: curl -k -X 'PUT' -d '{"hello":"world","answer":42}' -H 'Content-Type: application/json' -H 'X-Auth-Token: private-token' 'https://www.example.com/abc/def.ghi?jlk=mno&pqr=stu'
+}
+
 // Benchmark test for GetCurlCommand
 func BenchmarkGetCurlCommand(b *testing.B) {
 	form := url.Values{}
