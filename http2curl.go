@@ -31,6 +31,10 @@ func GetCurlCommand(req *http.Request) (*CurlCommand, error) {
 
 	command.append("curl")
 
+	if req.URL != nil && req.URL.Scheme == "https" {
+		command.append("-k")
+	}
+
 	command.append("-X", bashEscape(req.Method))
 
 	if req.Body != nil {
