@@ -3,6 +3,7 @@ package http2curl
 import (
 	"bytes"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"sort"
 	"strings"
@@ -37,8 +38,10 @@ func GetCurlCommand(req *http.Request) (*CurlCommand, error) {
 		var buff bytes.Buffer
 		_, err := buff.ReadFrom(req.Body)
 		if err != nil {
-			return nil, fmt.Errorf("getCurlCommand: buffer read from body erorr: %w", err)
+			return nil, fmt.Errorf("getCurlCommand: buffer read from body error: %w", err)
 		}
+		// reset body for potential re-reads
+		req.Body = ioutil.NopCloser(bytes.NewBuffer(buff.Bytes()))
 		if len(buff.String()) > 0 {
 			bodyEscaped := bashEscape(buff.String())
 			command.append("-d", bodyEscaped)
@@ -60,3 +63,4 @@ func GetCurlCommand(req *http.Request) (*CurlCommand, error) {
 
 	return &command, nil
 }
+
