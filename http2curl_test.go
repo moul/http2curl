@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"net/http/httptest"
 	"net/url"
 	"strconv"
 	"strings"
@@ -152,5 +153,31 @@ func BenchmarkGetCurlCommand(b *testing.B) {
 		if err != nil {
 			panic(err)
 		}
+	}
+}
+
+func TestGetCurlCommand_serverSide(t *testing.T) {
+	svr := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		c, err := GetCurlCommand(r)
+		if err != nil {
+			t.Error(err)
+		}
+		fmt.Fprint(w, c.String())
+	}))
+	defer svr.Close()
+
+	resp, err := http.Get(svr.URL)
+	if err != nil {
+		t.Error(err)
+	}
+	defer resp.Body.Close()
+	data, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		t.Error(err)
+	}
+
+	exp := fmt.Sprintf("curl -X 'GET' -H 'Accept-Encoding: gzip' -H 'User-Agent: Go-http-client/1.1' '%s/'", svr.URL)
+	if out := string(data); out != exp {
+		t.Errorf("act: %s, exp: %s", out, exp)
 	}
 }
