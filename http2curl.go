@@ -27,11 +27,25 @@ func bashEscape(str string) string {
 
 // GetCurlCommand returns a CurlCommand corresponding to an http.Request
 func GetCurlCommand(req *http.Request) (*CurlCommand, error) {
+	if req.URL == nil {
+		return nil, fmt.Errorf("getCurlCommand: invalid request, req.URL is nil")
+	}
+
 	command := CurlCommand{}
 
 	command.append("curl")
 
-	if req.URL != nil && req.URL.Scheme == "https" {
+	schema := req.URL.Scheme
+	requestURL := req.URL.String()
+	if schema == "" {
+		schema = "http"
+		if req.TLS != nil {
+			schema = "https"
+		}
+		requestURL = schema + "://" + req.Host + req.URL.Path
+	}
+
+	if schema == "https" {
 		command.append("-k")
 	}
 
@@ -60,7 +74,7 @@ func GetCurlCommand(req *http.Request) (*CurlCommand, error) {
 		command.append("-H", bashEscape(fmt.Sprintf("%s: %s", k, strings.Join(req.Header[k], " "))))
 	}
 
-	command.append(bashEscape(req.URL.String()))
+	command.append(bashEscape(requestURL))
 
 	return &command, nil
 }
