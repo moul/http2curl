@@ -29,9 +29,9 @@ jobs:
   golangci-lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: golangci-lint
-        uses: golangci/golangci-lint-action@v2.5.2
+        uses: golangci/golangci-lint-action@v3.1.0
         with:
           version: v1.38
           #github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -46,9 +46,9 @@ jobs:
         golang:
           - 1.16.x
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Install Go
-        uses: actions/setup-go@v2
+        uses: actions/setup-go@v3
         with:
           go-version: ${{ matrix.golang }}
       - name: Run tests on Windows
@@ -65,9 +65,9 @@ jobs:
       OS: macos-latest
       GOLANG: ${{ matrix.golang }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Install Go
-        uses: actions/setup-go@v2
+        uses: actions/setup-go@v3
         with:
           go-version: ${{ matrix.golang }}
       - uses: actions/cache@v2.1.6
@@ -105,9 +105,9 @@ jobs:
       OS: ubuntu-latest
       GOLANG: ${{ matrix.golang }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Install Go
-        uses: actions/setup-go@v2
+        uses: actions/setup-go@v3
         with:
           go-version: ${{ matrix.golang }}
       - uses: actions/cache@v2.1.6
