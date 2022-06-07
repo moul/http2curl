@@ -25,7 +25,7 @@ func ExampleGetCurlCommand() {
 	fmt.Println(command)
 
 	// Output:
-	// curl -X 'POST' -d 'age=10&name=Hudson' -H 'Api_key: 123' 'http://foo.com/cats'
+	// curl -X 'POST' -d 'age=10&name=Hudson' -H 'Api_key: 123' 'http://foo.com/cats' --compressed
 }
 
 func ExampleGetCurlCommand_json() {
@@ -36,7 +36,7 @@ func ExampleGetCurlCommand_json() {
 	fmt.Println(command)
 
 	// Output:
-	// curl -X 'PUT' -d '{"hello":"world","answer":42}' -H 'Content-Type: application/json' 'http://www.example.com/abc/def.ghi?jlk=mno&pqr=stu'
+	// curl -X 'PUT' -d '{"hello":"world","answer":42}' -H 'Content-Type: application/json' 'http://www.example.com/abc/def.ghi?jlk=mno&pqr=stu' --compressed
 }
 
 func ExampleGetCurlCommand_slice() {
@@ -55,7 +55,8 @@ func ExampleGetCurlCommand_slice() {
 	//   '{"hello":"world","answer":42}' \
 	//   -H \
 	//   'Content-Type: application/json' \
-	//   'http://www.example.com/abc/def.ghi?jlk=mno&pqr=stu'
+	//   'http://www.example.com/abc/def.ghi?jlk=mno&pqr=stu' \
+	//   --compressed
 }
 
 func ExampleGetCurlCommand_noBody() {
@@ -66,7 +67,7 @@ func ExampleGetCurlCommand_noBody() {
 	fmt.Println(command)
 
 	// Output:
-	// curl -X 'PUT' -H 'Content-Type: application/json' 'http://www.example.com/abc/def.ghi?jlk=mno&pqr=stu'
+	// curl -X 'PUT' -H 'Content-Type: application/json' 'http://www.example.com/abc/def.ghi?jlk=mno&pqr=stu' --compressed
 }
 
 func ExampleGetCurlCommand_emptyStringBody() {
@@ -77,7 +78,7 @@ func ExampleGetCurlCommand_emptyStringBody() {
 	fmt.Println(command)
 
 	// Output:
-	// curl -X 'PUT' -H 'Content-Type: application/json' 'http://www.example.com/abc/def.ghi?jlk=mno&pqr=stu'
+	// curl -X 'PUT' -H 'Content-Type: application/json' 'http://www.example.com/abc/def.ghi?jlk=mno&pqr=stu' --compressed
 }
 
 func ExampleGetCurlCommand_newlineInBody() {
@@ -89,7 +90,7 @@ func ExampleGetCurlCommand_newlineInBody() {
 
 	// Output:
 	// curl -X 'POST' -d 'hello
-	// world' -H 'Content-Type: application/json' 'http://www.example.com/abc/def.ghi?jlk=mno&pqr=stu'
+	// world' -H 'Content-Type: application/json' 'http://www.example.com/abc/def.ghi?jlk=mno&pqr=stu' --compressed
 }
 
 func ExampleGetCurlCommand_specialCharsInBody() {
@@ -100,7 +101,7 @@ func ExampleGetCurlCommand_specialCharsInBody() {
 	fmt.Println(command)
 
 	// Output:
-	// curl -X 'POST' -d 'Hello $123 o'\''neill -"-' -H 'Content-Type: application/json' 'http://www.example.com/abc/def.ghi?jlk=mno&pqr=stu'
+	// curl -X 'POST' -d 'Hello $123 o'\''neill -"-' -H 'Content-Type: application/json' 'http://www.example.com/abc/def.ghi?jlk=mno&pqr=stu' --compressed
 }
 
 func ExampleGetCurlCommand_other() {
@@ -119,7 +120,7 @@ func ExampleGetCurlCommand_other() {
 		panic(err)
 	}
 	fmt.Println(command)
-	// Output: curl -X 'PUT' -d '{"hello":"world","answer":42}' -H 'Content-Type: application/json' -H 'X-Auth-Token: private-token' 'http://www.example.com/abc/def.ghi?jlk=mno&pqr=stu'
+	// Output: curl -X 'PUT' -d '{"hello":"world","answer":42}' -H 'Content-Type: application/json' -H 'X-Auth-Token: private-token' 'http://www.example.com/abc/def.ghi?jlk=mno&pqr=stu' --compressed
 }
 
 func ExampleGetCurlCommand_https() {
@@ -138,7 +139,7 @@ func ExampleGetCurlCommand_https() {
 		panic(err)
 	}
 	fmt.Println(command)
-	// Output: curl -k -X 'PUT' -d '{"hello":"world","answer":42}' -H 'Content-Type: application/json' -H 'X-Auth-Token: private-token' 'https://www.example.com/abc/def.ghi?jlk=mno&pqr=stu'
+	// Output: curl -k -X 'PUT' -d '{"hello":"world","answer":42}' -H 'Content-Type: application/json' -H 'X-Auth-Token: private-token' 'https://www.example.com/abc/def.ghi?jlk=mno&pqr=stu' --compressed
 }
 
 // Benchmark test for GetCurlCommand
@@ -176,7 +177,7 @@ func TestGetCurlCommand_serverSide(t *testing.T) {
 		t.Error(err)
 	}
 
-	exp := fmt.Sprintf("curl -X 'GET' -H 'Accept-Encoding: gzip' -H 'User-Agent: Go-http-client/1.1' '%s/'", svr.URL)
+	exp := fmt.Sprintf("curl -X 'GET' -H 'Accept-Encoding: gzip' -H 'User-Agent: Go-http-client/1.1' '%s/' --compressed", svr.URL)
 	if out := string(data); out != exp {
 		t.Errorf("act: %s, exp: %s", out, exp)
 	}
