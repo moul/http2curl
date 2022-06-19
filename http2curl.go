@@ -79,6 +79,7 @@ func GetCurlCommand(req *http.Request) (*CurlCommand, error) {
 
 	command.append(bashEscape(requestURL))
 
+	command.append("--compressed")
+
 	return &command, nil
 }
-
