@@ -31,7 +31,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: golangci-lint
-        uses: golangci/golangci-lint-action@v3.3.0
+        uses: golangci/golangci-lint-action@v3.4.0
         with:
           version: v1.38
           #github-token: ${{ secrets.GITHUB_TOKEN }}
