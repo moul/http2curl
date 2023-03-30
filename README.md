@@ -16,7 +16,7 @@
 [![Go Report Card](https://goreportcard.com/badge/moul.io/http2curl)](https://goreportcard.com/report/moul.io/http2curl)
 [![CodeFactor](https://www.codefactor.io/repository/github/moul/http2curl/badge)](https://www.codefactor.io/repository/github/moul/http2curl)
 
-To do the reverse operation, check out [mholt/curl-to-go](https://github.com/mholt/curl-to-go).
+To do the reverse operation, check out [mholt/curl-to-go](https://github.com/mholt/curl-to-go) and [erfanmomeniii/curl](https://github.com/erfanmomeniii/curl).
 
 ## Example
 
