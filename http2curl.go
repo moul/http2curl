@@ -38,12 +38,18 @@ func GetCurlCommand(req *http.Request) (*CurlCommand, error) {
 
 	schema := req.URL.Scheme
 	requestURL := req.URL.String()
-	if schema == "" {
-		schema = "http"
-		if req.TLS != nil {
-			schema = "https"
+	host := req.URL.Host
+	if len(host) == 0 {
+		if len(req.Host) > 0 {
+			host = req.Host
 		}
-		requestURL = schema + "://" + req.Host + req.URL.Path
+		if schema == "" {
+			schema = "http"
+			if req.TLS != nil {
+				schema = "https"
+			}
+		}
+		requestURL = schema + "://" + host + requestURL
 	}
 
 	if schema == "https" {
