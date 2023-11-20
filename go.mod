@@ -1,4 +1,4 @@
-module morefreeze/http2curl/v2
+module github.com/morefreeze/http2curl/v2
 
 go 1.13
 
