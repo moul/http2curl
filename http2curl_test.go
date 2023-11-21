@@ -29,7 +29,10 @@ func ExampleGetCurlCommand() {
 }
 
 func ExampleGetCurlCommand_json() {
-	req, _ := http.NewRequest("PUT", "http://www.example.com/abc/def.ghi?jlk=mno&pqr=stu", bytes.NewBufferString(`{"hello":"world","answer":42}`))
+	req, _ := http.NewRequest(
+		"PUT", "http://www.example.com/abc/def.ghi?jlk=mno&pqr=stu",
+		bytes.NewBufferString(`{"hello":"world","answer":42}`),
+	)
 	req.Header.Set("Content-Type", "application/json")
 
 	command, _ := GetCurlCommand(req)
@@ -41,7 +44,10 @@ func ExampleGetCurlCommand_json() {
 
 func ExampleGetCurlCommand_slice() {
 	// See https://github.com/moul/http2curl/issues/12
-	req, _ := http.NewRequest("PUT", "http://www.example.com/abc/def.ghi?jlk=mno&pqr=stu", bytes.NewBufferString(`{"hello":"world","answer":42}`))
+	req, _ := http.NewRequest(
+		"PUT", "http://www.example.com/abc/def.ghi?jlk=mno&pqr=stu",
+		bytes.NewBufferString(`{"hello":"world","answer":42}`),
+	)
 	req.Header.Set("Content-Type", "application/json")
 
 	command, _ := GetCurlCommand(req)
@@ -82,7 +88,9 @@ func ExampleGetCurlCommand_emptyStringBody() {
 }
 
 func ExampleGetCurlCommand_newlineInBody() {
-	req, _ := http.NewRequest("POST", "http://www.example.com/abc/def.ghi?jlk=mno&pqr=stu", bytes.NewBufferString("hello\nworld"))
+	req, _ := http.NewRequest(
+		"POST", "http://www.example.com/abc/def.ghi?jlk=mno&pqr=stu", bytes.NewBufferString("hello\nworld"),
+	)
 	req.Header.Set("Content-Type", "application/json")
 
 	command, _ := GetCurlCommand(req)
@@ -94,7 +102,9 @@ func ExampleGetCurlCommand_newlineInBody() {
 }
 
 func ExampleGetCurlCommand_specialCharsInBody() {
-	req, _ := http.NewRequest("POST", "http://www.example.com/abc/def.ghi?jlk=mno&pqr=stu", bytes.NewBufferString(`Hello $123 o'neill -"-`))
+	req, _ := http.NewRequest(
+		"POST", "http://www.example.com/abc/def.ghi?jlk=mno&pqr=stu", bytes.NewBufferString(`Hello $123 o'neill -"-`),
+	)
 	req.Header.Set("Content-Type", "application/json")
 
 	command, _ := GetCurlCommand(req)
@@ -158,13 +168,17 @@ func BenchmarkGetCurlCommand(b *testing.B) {
 }
 
 func TestGetCurlCommand_serverSide(t *testing.T) {
-	svr := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		c, err := GetCurlCommand(r)
-		if err != nil {
-			t.Error(err)
-		}
-		fmt.Fprint(w, c.String())
-	}))
+	svr := httptest.NewServer(
+		http.HandlerFunc(
+			func(w http.ResponseWriter, r *http.Request) {
+				c, err := GetCurlCommand(r)
+				if err != nil {
+					t.Error(err)
+				}
+				fmt.Fprint(w, c.String())
+			},
+		),
+	)
 	defer svr.Close()
 
 	resp, err := http.Get(svr.URL)
@@ -177,8 +191,34 @@ func TestGetCurlCommand_serverSide(t *testing.T) {
 		t.Error(err)
 	}
 
-	exp := fmt.Sprintf("curl -X 'GET' -H 'Accept-Encoding: gzip' -H 'User-Agent: Go-http-client/1.1' '%s/' --compressed", svr.URL)
+	exp := fmt.Sprintf(
+		"curl -X 'GET' -H 'Accept-Encoding: gzip' -H 'User-Agent: Go-http-client/1.1' '%s/' --compressed", svr.URL,
+	)
 	if out := string(data); out != exp {
 		t.Errorf("act: %s, exp: %s", out, exp)
 	}
+}
+
+func ExampleGetCurlCommand_noSchema() {
+	req, _ := http.NewRequest("PUT", "www.example.com/abc/def.ghi?jlk=mno&pqr=stu", nil)
+	req.Header.Set("Content-Type", "application/json")
+
+	command, _ := GetCurlCommand(req)
+	fmt.Println(command)
+
+	// Output:
+	// curl -X 'PUT' -H 'Content-Type: application/json' 'http://www.example.com/abc/def.ghi?jlk=mno&pqr=stu' --compressed
+}
+
+func ExampleGetCurlCommand_noHost() {
+	req, _ := http.NewRequest("PUT", "/abc/def.ghi?jlk=mno&pqr=stu", nil)
+	req.Header.Set("Content-Type", "application/json")
+	// it could happen, host is set in HTTP/2 pseudo-header field ":authority"
+	req.Host = "www.example.com"
+
+	command, _ := GetCurlCommand(req)
+	fmt.Println(command)
+
+	// Output:
+	// curl -X 'PUT' -H 'Content-Type: application/json' 'http://www.example.com/abc/def.ghi?jlk=mno&pqr=stu' --compressed
 }
