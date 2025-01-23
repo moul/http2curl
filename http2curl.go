@@ -26,6 +26,10 @@ func bashEscape(str string) string {
 	return `'` + strings.Replace(str, `'`, `'\''`, -1) + `'`
 }
 
+func bracketEscape(str string) string {
+	return strings.Replace(strings.Replace(str, `[`, `\[`, -1), `]`, `\]`, -1)
+}
+
 // GetCurlCommand returns a CurlCommand corresponding to an http.Request
 func GetCurlCommand(req *http.Request) (*CurlCommand, error) {
 	if req.URL == nil {
@@ -77,7 +81,7 @@ func GetCurlCommand(req *http.Request) (*CurlCommand, error) {
 		command.append("-H", bashEscape(fmt.Sprintf("%s: %s", k, strings.Join(req.Header[k], " "))))
 	}
 
-	command.append(bashEscape(requestURL))
+	command.append(bashEscape(bracketEscape(requestURL)))
 
 	command.append("--compressed")
 
