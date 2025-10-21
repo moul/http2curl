@@ -3,7 +3,7 @@ package http2curl
 import (
 	"bytes"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
@@ -18,7 +18,7 @@ func ExampleGetCurlCommand() {
 	form.Add("name", "Hudson")
 	body := form.Encode()
 
-	req, _ := http.NewRequest(http.MethodPost, "http://foo.com/cats", ioutil.NopCloser(bytes.NewBufferString(body)))
+	req, _ := http.NewRequest(http.MethodPost, "http://foo.com/cats", io.NopCloser(bytes.NewBufferString(body)))
 	req.Header.Set("API_KEY", "123")
 
 	command, _ := GetCurlCommand(req)
@@ -149,7 +149,7 @@ func BenchmarkGetCurlCommand(b *testing.B) {
 	for i := 0; i <= b.N; i++ {
 		form.Add("number", strconv.Itoa(i))
 		body := form.Encode()
-		req, _ := http.NewRequest(http.MethodPost, "http://foo.com", ioutil.NopCloser(bytes.NewBufferString(body)))
+		req, _ := http.NewRequest(http.MethodPost, "http://foo.com", io.NopCloser(bytes.NewBufferString(body)))
 		_, err := GetCurlCommand(req)
 		if err != nil {
 			panic(err)
@@ -172,7 +172,7 @@ func TestGetCurlCommand_serverSide(t *testing.T) {
 		t.Error(err)
 	}
 	defer resp.Body.Close()
-	data, err := ioutil.ReadAll(resp.Body)
+	data, err := io.ReadAll(resp.Body)
 	if err != nil {
 		t.Error(err)
 	}
