@@ -23,7 +23,7 @@ func (c *CurlCommand) String() string {
 }
 
 func bashEscape(str string) string {
-	return `'` + strings.Replace(str, `'`, `'\''`, -1) + `'`
+	return `'` + strings.ReplaceAll(str, `'`, `'\''`) + `'`
 }
 
 // GetCurlCommand returns a CurlCommand corresponding to an http.Request
