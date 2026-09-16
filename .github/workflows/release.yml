@@ -26,7 +26,7 @@ jobs:
         if: steps.semantic.outputs.new-release-published == 'true'
         uses: actions/setup-go@v3
         with:
-          go-version: 1.15.x
+          go-version: 1.27.x
       -
         name: Register version on pkg.go.dev
         if: steps.semantic.outputs.new-release-published == 'true'
